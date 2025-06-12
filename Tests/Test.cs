@@ -1,6 +1,8 @@
 ﻿using Circuit;
 using ComputerAlgebra;
+#if UsePlotting
 using Plotting;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +44,8 @@ namespace Tests
             int Oversample,
             int Iterations,
             Expression? Input = null,
-            IEnumerable<Expression>? Outputs = null)
+            IEnumerable<Expression>? Outputs = null,
+            ILog? log = null)
         {
             Analysis analysis = C.Analyze();
             TransientSolution TS = TransientSolution.Solve(analysis, (Real)1 / (SampleRate * Oversample));
@@ -66,6 +69,7 @@ namespace Tests
                 Iterations = Iterations,
                 Input = new[] { Input },
                 Output = Outputs,
+                Log = log ?? new NullLog(),
             };
 
             Dictionary<Expression, List<double>> outputs = 
@@ -157,6 +161,7 @@ namespace Tests
 
         public void PlotAll(string Title, Dictionary<Expression, List<double>> Outputs)
         {
+            #if UsePlotting
             Plot p = new Plot()
             {
                 Title = Title,
@@ -173,7 +178,8 @@ namespace Tests
             { Name = i.Key.ToString() }));
 
             System.IO.Directory.CreateDirectory("Plots");
-            p.Save("Plots\\" + Title + ".bmp");
+            p.Save("Plots" + Path.DirectorySeparatorChar + Title + ".bmp");
+            #endif
         }
         public void WriteStatistics(string Title, Dictionary<Expression, List<double>> Outputs)
         {
@@ -190,7 +196,7 @@ namespace Tests
                 sb.AppendLine(string.Format(cols, i.Key, mean, min, max, rms));
             }
 
-            string path = "Stats\\" + Title + ".csv";
+            string path = "Stats" + Path.DirectorySeparatorChar + Title + ".csv";
             System.IO.Directory.CreateDirectory("Stats");
             File.WriteAllText(path, sb.ToString());
         }

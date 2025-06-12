@@ -2,11 +2,13 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading;
-using System.Windows.Forms;
-using Matrix2D = System.Drawing.Drawing2D.Matrix;
 
 namespace Plotting
 {
+#if UsePlotting
+    using System.Windows.Forms;
+    using Matrix2D = System.Drawing.Drawing2D.Matrix;
+
     /// <summary>
     /// A single plot window.
     /// </summary>
@@ -267,4 +269,5 @@ namespace Plotting
             return p;
         }
     }
+#endif
 }

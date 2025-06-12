@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Matrix2D = System.Drawing.Drawing2D.Matrix;
 
 namespace Plotting
 {
+#if UsePlotting
+    using Matrix2D = System.Drawing.Drawing2D.Matrix;
+
     public enum PointStyle
     {
         None,
@@ -106,4 +108,5 @@ namespace Plotting
             return new List<PointF[]>() { points.ToArray() };
         }
     }
+#endif
 }

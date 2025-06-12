@@ -37,7 +37,7 @@ namespace Tests
 
             foreach (var circuit in GetCircuits(pattern, log))
             {
-                var outputs = tester.Run(circuit, t => Harmonics(t, 0.5, 82, 2), sampleRate, samples, oversample, iterations);
+                var outputs = tester.Run(circuit, t => Harmonics(t, 0.5, 82, 2), sampleRate, samples, oversample, iterations, log: log);
                 if (plot)
                 {
                     tester.PlotAll(circuit.Name, outputs);
@@ -51,7 +51,7 @@ namespace Tests
 
         public static void Benchmark(string pattern, int sampleRate, int oversample, int iterations)
         {
-            var log = new ConsoleLog() { Verbosity = MessageType.Error };
+            var log = new ConsoleLog() { Verbosity = MessageType.Info };
             var tester = new Test();
             string fmt = "{0,-40}{1,12:G4}{2,12:G4}{3,12:G4}{4,12:G4}";
             System.Console.WriteLine(fmt, "Circuit", "Analysis (ms)", "Solve (ms)", "Sim (kHz)", "Realtime x");

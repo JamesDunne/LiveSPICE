@@ -409,6 +409,27 @@ namespace Circuit
             foreach (KeyValuePair<Expression, GlobalExpr<double>> i in globals)
                 code.Add(LinqExpr.Assign(i.Value, code[i.Key]));
 
+            // jsd:
+            foreach (var decl in code.Decls)
+            {
+                Log.WriteLine(MessageType.Info,
+                    "var {0} {1}",
+                    decl.Name,
+                    decl.Type
+                );
+            }
+            foreach (var expr in code.Code)
+            {
+                if (expr.NodeType == System.Linq.Expressions.ExpressionType.Label)
+                {
+                    Log.WriteLine(MessageType.Info, "label {0}:", (expr as System.Linq.Expressions.LabelExpression).Target.Name);
+                }
+                else
+                {
+                    Log.WriteLine(MessageType.Info, "{0}", expr.ToString());
+                }
+            }
+
             var lambda = code.Build<Action<int, double, double[][], double[][]>>();
             return lambda.Compile();
         }

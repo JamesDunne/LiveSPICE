@@ -6,6 +6,8 @@ using System.Linq;
 
 namespace Plotting
 {
+#if UsePlotting
+
     public class SeriesEventArgs : EventArgs
     {
         private Series s;
@@ -165,4 +167,5 @@ namespace Plotting
 
         IEnumerator IEnumerable.GetEnumerator() { return this.GetEnumerator(); }
     }
+#endif
 }
