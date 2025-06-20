@@ -25,7 +25,7 @@ namespace Tests
             return t;
         }
 
-        public static Triode Add12AX7(this Circuit.Circuit circuit, string name, string p, string g, string k)
+        public static Triode AddTriode(this Circuit.Circuit circuit, string name, string p, string g, string k)
         {
             var t = new Triode();
             t.Name = name;
@@ -35,6 +35,17 @@ namespace Tests
             t.Cathode.ConnectTo(circuit.Nodes[k]);
             // TODO: incorporate Blum model
             t.Model = TriodeModel.DempwolfZolzer;
+            return t;
+        }
+
+        public static KurtBlum12AX7 Add12AX7(this Circuit.Circuit circuit, string name, string p, string g, string k)
+        {
+            var t = new KurtBlum12AX7();
+            t.Name = name;
+            circuit.Components.Add(t);
+            t.Plate.ConnectTo(circuit.Nodes[p]);
+            t.Grid.ConnectTo(circuit.Nodes[g]);
+            t.Cathode.ConnectTo(circuit.Nodes[k]);
             return t;
         }
 
@@ -215,7 +226,7 @@ namespace Tests
             foreach (var decl in code.Decls)
             {
                 log.WriteLine(MessageType.Info,
-                    "var {0} {1}",
+                    "\tvar {0} {1}",
                     decl.Name,
                     decl.Type
                 );

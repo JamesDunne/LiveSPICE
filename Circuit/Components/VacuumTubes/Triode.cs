@@ -206,6 +206,16 @@ namespace Circuit
         {
             return Call.If(x > 50, x, Call.Ln(1 + Call.Exp(x)));
         }
+
+        private static Expression PWR(Expression x, Expression y)
+        {
+            return Binary.Power(Call.Abs(x), y);
+        }
+
+        private static Expression PWRS(Expression x, Expression y)
+        {
+            return Call.Sign(x) * Binary.Power(Call.Abs(x), y);
+        }
     }
 
     // Deprecated triode classes.
